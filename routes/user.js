@@ -5,7 +5,7 @@ const { getUserById, getUser, updateUser, userPurchasedList} =require("../contro
 const { isSignedIn,isAuthenticated,isAdmin} = require("../controllers/auth")
 
 
-router.param("userId",getUserById )
+router.param("userId",getUserById );
 router.get("/user/:userId", isSignedIn,isAuthenticated,   getUser);
 
 router.put("/user/:userId", isSignedIn, isAuthenticated,updateUser);
