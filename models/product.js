@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {Objectid}=mongoose.Schema;
+const {ObjectId}=mongoose.Schema;
 const productSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
         maxlength: 32
     },
     category:{
-    type:Objectid,
+    type:ObjectId,
     ref:"Category",
     required:true
     },
