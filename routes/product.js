@@ -1,7 +1,7 @@
 const express =require("express");
 const router=express.Router();
 
-const { getProductById, createProduct,getProduct, photo,deleteProduct,updateProduct}=require("../controllers/product");
+const { getProductById, createProduct,getProduct, photo,deleteProduct,updateProduct,getAllProducts,getAllUniqueCategories}=require("../controllers/product");
 const { isSignedIn,isAuthenticated,isAdmin} = require("../controllers/auth");
 const {getUserById } = require("../controllers/user");
 
@@ -9,7 +9,7 @@ const {getUserById } = require("../controllers/user");
 router.param("userId",getUserById);
 router.param("productId", getProductById);
 
-// all of actual routes
+// all of actual routes           
 //create route
 router.post("/product/create/:userId", isSignedIn, isAuthenticated,isAdmin,createProduct);
 //read routes
@@ -21,4 +21,8 @@ router.delete("/product/:productId/:userId",isSignedIn,isAuthenticated,isAdmin,d
 router.put("/product/:productId/:userId",isSignedIn,isAuthenticated,isAdmin,updateProduct);
 
 //listing route
+router.get("/products",getAllProducts);
+
+router.get("/product/categories",getAllUniqueCategories);
+
 module.exports= router;

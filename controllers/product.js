@@ -2,6 +2,7 @@ const Product=require("../models/product");
 const formidable=require("formidable");
 const _ =require("lodash");
 const fs =require("fs");
+const { update } = require("lodash");
 
 
 exports.getProductById=(req,res,next,id)=>{
@@ -146,9 +147,42 @@ Product.find()
     if(err){
         return res.status(400).json({
 error:"No Product Found"
-
-        })
+        });
     }
     res.json(products)
-})
+});
+};
+
+exports.getAllUniqueCategories=(req,res)=>{
+Product.distinct("category",{}, (err,category) => {
+    if(err){
+        return res.status(400).json({
+            error:"No Category Found"
+        });
+    }
+    res.json(category);
+});
+}
+exports.updateStock=(req,res,next)=>{
+
+let myOperations = req.body.order.products.map(prod=>{
+return {
+    updateOne:{
+        filter:{_id: prod._id},
+        update:{$inc:{stock:-prod.count,sold:+prod.count}}
+    }
+};
+
+});
+Product.bulkWrite(myOperations,{},(err,products)=>{
+
+if(err){
+    return res.status(400).json({
+        error:"Bulk operation failed"
+    });
+}
+next();
+
+
+});
 };
